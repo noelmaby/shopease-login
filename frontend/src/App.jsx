@@ -8,7 +8,7 @@ import axios from 'axios';
 import {Toaster} from 'react-hot-toast'
 import {UserContextProvider} from '../context/userContext';
 
-axios.defaults.baseURL = 'https://shopease-login.vercel.app';
+axios.defaults.baseURL = 'https://shopease-login-7qpyne542-noel-m-abys-projects.vercel.app';
 axios.defaults.withCredentials = true
 
 
