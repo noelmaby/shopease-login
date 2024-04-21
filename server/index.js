@@ -10,8 +10,7 @@ app.use(cors(
     {
         origin : ["https://shopease-login.vercel.app"],
         methods : ["POST","GET","OPTIONS","PUT","DELETE"],
-        allowedHeaders: ['Content-Type','X-Auth-Token','Origin', 'Authorization'],
-        credentials:true
+        allowedHeaders: ['Content-Type','X-Auth-Token','Origin', 'Authorization']
     }
 ));
 
