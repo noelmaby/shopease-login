@@ -8,7 +8,7 @@ const app=express()
 
 app.use(cors(
     {
-        origin : ["https://shopease-login.vercel.app/"],
+        origin : ["https://shopease-login.vercel.app"],
         methods : ["POST","GET"],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials:true
