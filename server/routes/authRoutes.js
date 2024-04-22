@@ -6,8 +6,9 @@ const {test,registerUser,loginUser,getProfile} =require('../controllers/authCont
 //middleware
 router.use(
     cors({
-        credentials:true,
-        origin:'http://127.0.0.1:5173'
+        origin : ["https://shopease-login.vercel.app"],
+        methods : ["POST","GET","OPTIONS","PUT","DELETE"],
+        allowedHeaders: ['Content-Type','X-Auth-Token','Origin', 'Authorization']
     })
 )
 

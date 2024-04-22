@@ -6,13 +6,6 @@ const cookieParser=require('cookie-parser')
 
 const app=express()
 
-app.use(cors(
-    {
-        origin : ["https://shopease-login.vercel.app"],
-        methods : ["POST","GET","OPTIONS","PUT","DELETE"],
-        allowedHeaders: ['Content-Type','X-Auth-Token','Origin', 'Authorization']
-    }
-));
 
 //database connection
 mongoose.connect("mongodb+srv://noelmanjayilaby:RKP2OXsrLO2kC7Os@cluster0.vderxq8.mongodb.net/Shopease ")
