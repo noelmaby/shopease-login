@@ -9,7 +9,8 @@ app.use(cors(
     {
         origin : ["https://shopeasefront.vercel.app"],
         methods : ["POST","GET"],
-        credentials:true
+        credentials:true,
+        allowedHeaders: ['Content-Type', 'Authorization'],
     }
 ));
 
