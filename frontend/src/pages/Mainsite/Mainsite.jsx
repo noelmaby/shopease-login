@@ -14,7 +14,6 @@ const Mainsite = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Function to fetch user profile data
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get('/profile');
@@ -26,12 +25,14 @@ const Mainsite = () => {
       }
     };
 
-    // Call the fetchUserProfile function once after 3 seconds
-    const timeout = setTimeout(fetchUserProfile, 3000);
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 6000); // Set timeout for 6 seconds
 
-    // Cleanup function to clear timeout on component unmount
-    return () => clearTimeout(timeout);
-  }, []); 
+    fetchUserProfile(); // Start fetching user profile immediately
+
+    return () => clearTimeout(timeout); // Cleanup function to clear timeout
+  }, [setUser]);
 
 
   const [nav,SetNav]= useState(false)
