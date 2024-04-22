@@ -64,6 +64,9 @@ const loginUser= async (req,res)=>{
             jwt.sign({email:user.email,name:user.name},process.env.JWT_SECRET,{expiresIn:10},(err,token)=>{
                 if(err) throw err;
                 res.cookie('token',token,{
+                    httponly:true,
+                    secure:true,
+                    sameSite:'none'
                 }).json(user)
             })
 
