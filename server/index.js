@@ -5,6 +5,13 @@ const {mongoose}=require('mongoose')
 const cookieParser=require('cookie-parser')
 
 const app=express()
+app.use(cors(
+    {
+        origin : ["https://shopease-login.vercel.app"],
+        methods : ["POST","GET"],
+        credentials:true
+    }
+));
 
 
 //database connection
