@@ -7,7 +7,7 @@ const {test,registerUser,loginUser,getProfile} =require('../controllers/authCont
 router.use(
     cors({
         credentials:true,
-        origin : ["https://shopease-login.vercel.app"]
+        origin : ["https://shopeasefront.vercel.app"]
         
     })
 )

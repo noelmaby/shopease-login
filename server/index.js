@@ -7,7 +7,7 @@ const cookieParser=require('cookie-parser')
 const app=express()
 app.use(cors(
     {
-        origin : ["https://shopease-login.vercel.app"],
+        origin : ["https://shopeasefront.vercel.app"],
         methods : ["POST","GET"],
         credentials:true
     }
