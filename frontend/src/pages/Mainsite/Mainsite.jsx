@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios';
 import { UserContext } from '../../../context/userContext';
+axios.defaults.withCredentials = true
 
 const Mainsite = () => {
 

@@ -61,12 +61,12 @@ const loginUser= async (req,res)=>{
         //password match
         const match=await comparePassword(password,user.password)
         if(match){
-            jwt.sign({email:user.email,name:user.name},process.env.JWT_SECRET,{expiresIn:10},(err,token)=>{
+            const accesstoken=jwt.sign({email:user.email,name:user.name},process.env.JWT_SECRET,{expiresIn:10},(err,token)=>{
                 if(err) throw err;
-                res.cookie('token',token,{
+                res.cookie('token',accesstoken,{
                     httponly:true,
                     secure:true,
-                    sameSite:'none'
+                    sameSite:'strict'
                 }).json(user)
             })
 
@@ -82,9 +82,9 @@ const loginUser= async (req,res)=>{
 }
 
 const getProfile = (req, res) => {
-    const { token } = req.cookies;
-    if (token) {
-      jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+    const accessToken = req.cookies.accesstoken;
+    if (accessToken) {
+      jwt.verify(accessToken, process.env.JWT_SECRET, {}, (err, user) => {
         if (err) {
           console.error('token expired');
         }

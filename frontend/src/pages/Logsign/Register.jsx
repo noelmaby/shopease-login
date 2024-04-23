@@ -5,7 +5,7 @@ import {AiOutlineUnlock} from "react-icons/ai"
 import bgimgg from '../image/shopease.jpg'
 import axios from "axios"
 import {toast} from 'react-hot-toast';
-
+axios.defaults.withCredentials = true
 import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
