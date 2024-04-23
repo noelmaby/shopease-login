@@ -9,7 +9,7 @@ const app=express()
   
 app.use(cors(
     {
-        origin : ["https://shopeasefront.vercel.app"],
+        origin : ["https://shopeasefrontend.vercel.app"],
         methods : ["POST","GET"],
         credentials:true,
         allowedHeaders: ['Content-Type', 'Authorization'],
