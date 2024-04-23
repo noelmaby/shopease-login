@@ -3,15 +3,6 @@ const router=express.Router()
 const cors=require('cors')
 const {test,registerUser,loginUser,getProfile} =require('../controllers/authController')
 
-//middleware
-router.use(
-    cors({
-        credentials:true,
-        origin : ["https://shopeasefront.vercel.app"],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        
-    })
-)
 
 router.get('/',test)
 router.post('/register',registerUser)

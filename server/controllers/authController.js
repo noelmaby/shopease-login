@@ -61,16 +61,10 @@ const loginUser= async (req,res)=>{
         //password match
         const match=await comparePassword(password,user.password)
         if(match){
-            const accesstoken=jwt.sign({email:user.email,name:user.name},process.env.JWT_SECRET,{expiresIn:10},(err,token)=>{
-                if(err) throw err;
-                res.cookie('token',accesstoken,{
-                    httponly:true,
-                    secure:true,
-                    sameSite:'strict'
-                }).json(user)
-            })
+            
+            }
 
-        }
+        
         if(!match){
             res.json({
                 error:'Password Do Not Match'
@@ -82,15 +76,7 @@ const loginUser= async (req,res)=>{
 }
 
 const getProfile = (req, res) => {
-    const accessToken = req.cookies.accesstoken;
-    if (accessToken) {
-      jwt.verify(accessToken, process.env.JWT_SECRET, {}, (err, user) => {
-        if (err) {
-          console.error('token expired');
-        }
-        res.json(user);
-      });
-    }
+    
   };
   
 
