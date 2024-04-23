@@ -15,7 +15,7 @@ const registerUser= async (req,res)=>{
         const {name,email,password}=req.body
         //check if name was entered
         if(!name){
-            return res,json({
+            return res.json({
                 error:'Name Is Required'
             })
         };
@@ -46,6 +46,7 @@ const registerUser= async (req,res)=>{
     }
 }
 
+
 //login endpoint
 const loginUser= async (req,res)=>{
     try {
@@ -61,22 +62,19 @@ const loginUser= async (req,res)=>{
         //password match
         const match=await comparePassword(password,user.password)
         if(match){
-            jwt.sign({ email: user.email, name: user.name }, 'fudytdyhtggxdfyhtx', { expiresIn: '10s' }, (err, token) => {
-                if (err) {
-                    console.error('Error signing JWT token:', err);
-                    return res.status(500).json({ error: 'Internal Server Error' });
-                }
-                // Set the JWT token as a cookie
-                res.cookie('token', token, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: 'none'
-                }).json(user);
-            });
-            
-            }
+           const accessToken=jwt.sign({email:user.email},"jwt-access-token-secret-key",{expiresIn:'1m'})
+           const refreshToken=jwt.sign({email:user.email},
+            "jwt-refresh-token-secret-key",{expiresIn:'5m'})
 
+            res.cookie('accesstoken',accessToken,{maxAge:6000,httpOnly:true,secure:true,sameSite:'None'})
+
+            res.cookie('refreshtoken',refreshToken,{maxAge:3000,httpOnly:true,secure:true,sameSite:'None'})
+            
+            
+            res.json({ success: 'Login successful' });
+            }
         
+
         if(!match){
             res.json({
                 error:'Password Do Not Match'
@@ -84,14 +82,57 @@ const loginUser= async (req,res)=>{
         }
     } catch (error) {
             console.log(error)
+            
     }
 }
 
+const verifyUser=(req,res,next) =>{
+    const accesstoken=req.cookies.accessToken;
+    if(!accesstoken){
+        if(renewToken(req,res)){
+            next()
+        }
+    }
+    else{
+        jwt.verify(accesstoken,'jwt-access-token-secret-key',(err,user) =>{
+            if(err){
+                return res.json({valid:false,message:"Invalid Token"})
+            }
+            else{
+                req.email=user.email;
+                next()
+            }
+        })
+    }
+}
+
+const renewToken=(req,res)=>{
+    const refreshtoken=req.cookies.refreshToken;
+    let exist=false;
+    if(!refreshtoken){
+        return res.json({valid:false,message:'No refresh token'})
+    }
+    else{
+        jwt.verify(refreshtoken,'jwt-refresh-token-secret-key',(err,decoded) =>{
+            if(err){
+                return res.json({valid:false,message:"Invalid Token"})
+            }
+            else{
+                const accessToken=jwt.sign({email:user.email},"jwt-access-token-secret-key",{expiresIn:'1m'})
+                res.cookie('accesstoken',accessToken,{maxAge:6000,httpOnly:true,secure:true,sameSite:'None'})
+                exist=true;
+            }
+        })
+    }
+    return exist
+}
+
+
 const getProfile = (req, res) => {
-    
+    return res.json({valid:true,message:"authorized"})
   };
   
 
 module.exports={
-    test,registerUser,loginUser,getProfile
+    test,registerUser,loginUser,getProfile,verifyUser
 }

@@ -28,13 +28,16 @@ const Lsig = () => {
             else{
                 setData({});
                 toast.success('Login Successfull');
-                navigate('/')
+                navigate('/dash')
             }
         } catch (error) {
-            
+            console.error('Error logging in:', error);
+            toast.error('An error occurred while logging in');
         }
        
     }
+    
+
     
 
   return (
