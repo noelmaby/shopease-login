@@ -61,7 +61,7 @@ const loginUser= async (req,res)=>{
         //password match
         const match=await comparePassword(password,user.password)
         if(match){
-            jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET, { expiresIn: '10s' }, (err, token) => {
+            jwt.sign({ email: user.email, name: user.name }, 'fudytdyhtggxdfyhtx', { expiresIn: '10s' }, (err, token) => {
                 if (err) {
                     console.error('Error signing JWT token:', err);
                     return res.status(500).json({ error: 'Internal Server Error' });
