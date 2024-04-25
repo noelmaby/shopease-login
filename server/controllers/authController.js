@@ -66,9 +66,9 @@ const loginUser= async (req,res)=>{
            const refreshToken=jwt.sign({email:user.email},
             "jwt-refresh-token-secret-key",{expiresIn:'5m'})
 
-            res.cookie('accesstoken',accessToken,{maxAge:6000,httpOnly:true,secure:true,sameSite:'None'})
+            res.cookie('accessToken',accessToken,{maxAge:60000,httpOnly:true,secure:true,sameSite:'None'})
 
-            res.cookie('refreshtoken',refreshToken,{maxAge:3000,httpOnly:true,secure:true,sameSite:'None'})
+            res.cookie('refreshToken',refreshToken,{maxAge:30000,httpOnly:true,secure:true,sameSite:'None'})
             
             
             res.json({ success: 'Login successful' });
@@ -86,53 +86,53 @@ const loginUser= async (req,res)=>{
     }
 }
 
-const verifyUser=(req,res,next) =>{
-    const accesstoken=req.cookies.accessToken;
-    if(!accesstoken){
-        if(renewToken(req,res)){
-            next()
+const varifyUser = (req, res, next) => {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+        if (renewToken(req, res, next)) {
+            next(); // Call next middleware or route handler
+        } else {
+            return res.json({ valid: false, message: "no access token" });
         }
-    }
-    else{
-        jwt.verify(accesstoken,'jwt-access-token-secret-key',(err,user) =>{
-            if(err){
-                return res.json({valid:false,message:"Invalid Token"})
+    } else {
+        jwt.verify(accessToken, 'jwt-access-token-secret-key', (err, user) => {
+            if (err) {
+                return res.json({ valid: false, message: "invalid token" });
+            } else {
+                req.email = user.email;
+                next(); // Call next middleware or route handler
             }
-            else{
-                req.email=user.email;
-                next()
-            }
-        })
+        });
     }
-}
+};
 
-const renewToken=(req,res)=>{
-    const refreshtoken=req.cookies.refreshToken;
-    let exist=false;
-    if(!refreshtoken){
-        return res.json({valid:false,message:'No refresh token'})
-    }
-    else{
-        jwt.verify(refreshtoken,'jwt-refresh-token-secret-key',(err,decoded) =>{
-            if(err){
-                return res.json({valid:false,message:"Invalid Token"})
+const renewToken = (req, res, next) => {
+    const refreshtoken = req.cookies.refreshToken;
+    if (!refreshtoken) {
+        return false; // No refresh token found
+    } else {
+        jwt.verify(refreshtoken, 'jwt-refresh-token-secret-key', (err, user) => {
+            if (err) {
+                return false; // Invalid refresh token
+            } else {
+                const accessToken = jwt.sign({ email: user.email }, "jwt-access-token-secret-key", { expiresIn: '1m' });
+                res.cookie('accesstoken', accessToken, { maxAge: 60000, httpOnly: true, secure: true, sameSite: 'None' });
+                next(); // Call next middleware or route handler
+                return true; // Token renewed successfully
             }
-            else{
-                const accessToken=jwt.sign({email:user.email},"jwt-access-token-secret-key",{expiresIn:'1m'})
-                res.cookie('accesstoken',accessToken,{maxAge:6000,httpOnly:true,secure:true,sameSite:'None'})
-                exist=true;
-            }
-        })
+        });
     }
-    return exist
-}
+};
 
 
-const getProfile = (req, res) => {
-    return res.json({valid:true,message:"authorized"})
+
+  const getProfile = (req, res) => {
+    return res.json({valid:true,message:'authorized'})
   };
   
+  
 
-module.exports={
-    test,registerUser,loginUser,getProfile,verifyUser
+
+  module.exports={
+    test,registerUser,loginUser,getProfile,varifyUser
 }

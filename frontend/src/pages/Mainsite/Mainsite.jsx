@@ -5,37 +5,12 @@ import { MdOutlineAdd } from "react-icons/md";
 import Hero from './Hero'
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import axios from 'axios';
-import { UserContext } from '../../../context/userContext';
-axios.defaults.withCredentials = true
+
+
 
 const Mainsite = () => {
 
-  const { user, setUser } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get('/profile');
-        setUser(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        setLoading(false);
-      }
-    };
-
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 6000); // Set timeout for 6 seconds
-
-    fetchUserProfile(); // Start fetching user profile immediately
-
-    return () => clearTimeout(timeout); // Cleanup function to clear timeout
-  }, [setUser]);
-
-
+  
   const [nav,SetNav]= useState(false)
   
   return (
@@ -67,29 +42,18 @@ const Mainsite = () => {
     </div>
       
 
-    {loading ? (
-        <div className="spinner">
-          <ClipLoader color="#000" loading={loading} size={50} />
-        </div>
-      ) : (
-        user ? (
-          <div>
+    
+       
+       
+      <div>
             <Link to="/Login">
               <button className='bg-black text-white items-center py-1 rounded-full w-20 hidden sm:inline'>
-                {user.name}
+                SignUp
               </button>
             </Link>
           </div>
-        ) : (
-          <div>
-            <Link to="/Login">
-              <button className='bg-black text-white items-center py-1 rounded-full w-20 hidden sm:inline'>
-                SignIn
-              </button>
-            </Link>
-          </div>
-        )
-      )}
+          
+       
     
     
 
