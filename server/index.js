@@ -6,16 +6,13 @@ const cookieParser=require('cookie-parser')
 
 const app=express()
 
-  
 app.use(cors(
     {
-        origin : ["https://shopeasefrontend.vercel.app"],
-        methods : ["POST","GET"],
-        credentials:true,
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        origin : ["http://127.0.0.1:5173"],
+        methods: ["POST", "GET", "DELETE"],
+        credentials:true
     }
 ));
-
 
 //database connection
 mongoose.connect("mongodb+srv://noelmanjayilaby:RKP2OXsrLO2kC7Os@cluster0.vderxq8.mongodb.net/Shopease ")
@@ -34,6 +31,6 @@ app.use('/',require('./routes/authRoutes'))
 
 
 
-app.listen(3001,()=>{
+app.listen(3000,()=>{
     console.log("server is running")
 })
