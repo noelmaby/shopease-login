@@ -14,11 +14,12 @@ const Addshop = () => {
         location:'',
         proname:'',
         photo:'',
+        slink:'',
     })
     const createShop =async(e)=>{
         e.preventDefault();
         try {
-            const { name, price, description, location, proname, photo } = data;
+            const { name, price, description, location, proname, photo,slink } = data;
             const formData = new FormData();
             formData.append('name', name);
             formData.append('price', price);
@@ -26,6 +27,7 @@ const Addshop = () => {
             formData.append('location', location);
             formData.append('proname', proname);
             formData.append('photo', photo);
+            formData.append('slink', slink);
     
             const response = await axios.post('/create-shop', formData);
             console.log(response.data);
@@ -250,6 +252,14 @@ const Addshop = () => {
         </div>
     )}
 </div>
+<div className="col-md-6">
+    <label htmlFor="validationCustom03" className="form-label">Direction Link</label>
+    <input value={data.slink} onChange={(e) => setData({...data,slink:e.target.value})}
+         type="text" className="form-control" id="validationCustom03" required />
+    <div className="invalid-feedback">
+      Please provide a Description.
+    </div>
+  </div>
 
   <div className="col-12">
     <div className="form-check">

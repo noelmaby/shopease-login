@@ -27,6 +27,10 @@ const shopSchema=new mongoose.Schema({
         data:Buffer,
         contentType:String
     },
+    slink:{
+        type:String,
+        required:true
+    }
 
     
 

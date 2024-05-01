@@ -8,6 +8,21 @@ import axios from 'axios'
 
 
 const Searchresult = () => {
+
+
+  const [message,setMessage]=useState()
+  useEffect(()=>{
+    axios.get('/profile')
+    .then(res=> {
+      if(res.data.valid){
+        setMessage(res.data.message);
+        setIsAdmin(res.data.isAdmin);
+      }else{
+        navigate('/')
+      }
+    })
+    .catch(err=>console.log(err))
+  })
     const { search } = useLocation();
 
     const queryParams = new URLSearchParams(search);

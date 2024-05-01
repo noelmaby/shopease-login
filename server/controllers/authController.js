@@ -159,10 +159,10 @@ const renewToken = (req, res, next) => {
   
   const addShop=async(req,res)=>{
     try {
-        const { name, location, description, price, proname } = req.fields;
+        const { name, location, description, price, proname,slink } = req.fields;
         const { photo } = req.files;
 
-        if (!name || !location || !description || !price || !proname) {
+        if (!name || !location || !description || !price || !proname || !slink) {
             return res.status(400).send({ error: 'All fields are required' });
         }
 

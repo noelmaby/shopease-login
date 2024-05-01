@@ -42,6 +42,7 @@ const Userdata = () => {
   const deleteUser = async (userId) => {
     try {
       await axios.delete(`/deleteuser/${userId}`);
+      window.location.reload();
       toast.success('User deleted successfully');
       
     } catch (error) {
@@ -170,14 +171,15 @@ const Userdata = () => {
         {/* End of Topbar */}
         {/* Begin Page Content */}
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 p-5">
-    {user?.map((p) => (
+        {user?.map((p) => (
+    p.email === "admin@admin.com" ? null : (
         <div key={p._id} className="col mb-4">
             <div className="card h-100">                
                 <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{p.name}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">{p.email}</h6>                    
                     <div className="mt-auto text-center">
-                    <button
+                        <button
                             onClick={() => deleteUser(p._id)}
                             className="btn btn-danger"
                         >
@@ -187,7 +189,8 @@ const Userdata = () => {
                 </div>
             </div>
         </div>
-    ))}
+    )
+))}
 </div>
         {/* /.container-fluid */}
       </div>
